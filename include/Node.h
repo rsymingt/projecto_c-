@@ -1,22 +1,27 @@
 
-#include <iostream>
-
 class Node
 {
 		
 	private:
-		std::string key;
-		static short int height;
-		
-	public:
-		Node *parent;
 		Node *left;
 		Node *right;
-		
-		std::string getKey();
-		void setKey(std::string);
-		
-		Node(std::string);
-		~Node();
+		std::string key;
+		short int height;
 
+	public:
+		Node(std::string key)
+		{
+			this->key = key;
+			this->height = 0;
+
+			left = NULL;
+			right = NULL;
+		}
+
+		~Node()
+		{
+			std::cout << "node destroyed" << std::endl;
+		}
+		
+		friend class Tree;
 };
