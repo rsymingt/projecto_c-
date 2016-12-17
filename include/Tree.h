@@ -3,8 +3,6 @@
 
 class Tree
 {
-	private:
-		Node *root;
 	
 	public:
 
@@ -21,7 +19,6 @@ class Tree
 		~Tree()
 		{
 			destroy(root);
-			std::cout << "tree destroyed" << std::endl;
 		}
 		
 		bool insert(std::string key)
@@ -34,12 +31,19 @@ class Tree
 			return remove(root, key);
 		}
 
+		void destroy()
+		{
+			destroy(root);
+			std::cout << "tree destroyed" << std::endl;
+		}
+
 		void print()
 		{
 			print(root);
 		}
 
 	private:
+		Node *root;
 
 		void destroy(Node *&root)
 		{

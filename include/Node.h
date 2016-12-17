@@ -20,7 +20,6 @@ class Node
 
 		~Node()
 		{
-			std::cout << "node destroyed" << std::endl;
 		}
 		
 		friend class Tree;

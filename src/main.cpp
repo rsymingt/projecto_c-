@@ -2,40 +2,42 @@
 #include <iostream>
 #include <limits>
 
-#include "Tree.h"
+#include "Tokenizer.h"
+#include "Commands.h"
+
+using std::cout;
+using std::cin;
+using std::endl;
+
+using std::string;
+
+void print(Tokenizer tokenizer);
 
 int main()
 {
-	
-	Tree tree;
+
+	Commands commands;
 
 	std::string usr_input;
+	Tokenizer tokenizer(' ');
 
-	do{
-		std::cin >> usr_input;
-		if(usr_input == "insert")
+	while(true){
+
+		std::getline(cin, usr_input);
+
+		tokenizer.setString(usr_input);
+		if(tokenizer.hasNext())
 		{
-			std::cin >> usr_input;
-			if(tree.insert(usr_input))
-				std::cout << "inserted_" << usr_input << "_successfully" << std::endl;
-		}
-		else if(usr_input == "print")
-		{
-			if(!std::cin.eofbit)
+			string tok = tokenizer.getNext();
+
+			if(tok == "q")
 			{
-				std::cout << "goodbit" << std::endl;
-				std::cin >> usr_input;
-				if(usr_input == "tree")
-				{
-					tree.print();
-				}
+				break;
 			}
+			
+			commands.run(tok, tokenizer);
 		}
-
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-	}while(usr_input != "q");
+	}
 
 	return 0;
 }
