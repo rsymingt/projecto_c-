@@ -1,5 +1,6 @@
 
 #include "Tree.h"
+#include "FileHandler.h" 
 
 using std::string;
 using std::cout;
@@ -104,10 +105,25 @@ class Commands
 			{
 				tree.print();
 			}
+
+			//print a file
+			else if(option == "-f")
+			{
+				if(tokenizer.hasNext())
+				{
+					string tok = tokenizer.getNext();
+					FileHandler::readFile(&tree, tok);
+				}
+			}
+			else
+			{
+				cout << "unknown command, type 'print -h' for help" << endl;
+			}
 		}
 
 		void insert(string option, Tokenizer tokenizer)
 		{
+			//insert into tree
 			if(option == "-t")
 			{
 				if(tokenizer.hasNext())
@@ -119,10 +135,15 @@ class Commands
 
 				}
 			}
+			else
+			{
+				cout << "unknown command, type 'print -h' for help" << endl;
+			}
 		}
 
 		void remove(string option, Tokenizer tokenizer)
 		{
+			//remove from tree
 			if(option == "-t")
 			{
 				if(tokenizer.hasNext())
@@ -134,6 +155,8 @@ class Commands
 
 				}
 			}
+
+			//destroy entire tree
 			else if(option == "-r")
 			{
 				if(tokenizer.hasNext())
@@ -144,6 +167,10 @@ class Commands
 						tree.destroy();
 					}
 				}
+			}
+			else
+			{
+				cout << "unknown commands, type 'remove -h' for help" << endl;
 			}
 		}
 
