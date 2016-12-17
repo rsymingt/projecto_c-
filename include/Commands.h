@@ -1,6 +1,7 @@
 
 #include "Tree.h"
 #include "FileHandler.h" 
+#include "DirectoryHandler.h"
 
 using std::string;
 using std::cout;
@@ -8,19 +9,101 @@ using std::endl;
 
 class Commands
 {
+
+	public:
+
+		void run(string command, Tokenizer tokenizer)
+		{
+			if(exists(command))
+			{
+				if(command == "help")
+				{
+					help();
+					return;
+				}
+
+				//list directories
+				else if(command == "ls")
+				{
+					dh.ls();
+				}
+
+				//change current director
+				else if(command == "cd")
+				{
+					if(tokenizer.hasNext())
+					{
+						string tok = tokenizer.getNext();
+						dh.cd(tok);
+					}
+				}
+
+				else if(tokenizer.hasNext())
+				{
+					string tok = tokenizer.getNext();
+					if(tok == "-h")
+					{
+						help(command);
+						return;
+					}
+					
+					if(command == "print")
+					{
+						print(tok, tokenizer);
+						return;
+					}
+
+					if(command == "insert")
+					{
+						insert(tok, tokenizer);
+						return;
+					}
+
+					if(command == "remove")
+					{
+						remove(tok, tokenizer);
+						return;
+					}
+				}
+				else
+				{
+					cout << "'print -h' for list of subcommands" << endl;
+				}
+			}
+		}
+
+		string getCurrentDirectory()
+		{
+			return dh.getCurrentDirectory();
+		}
+
+		Commands()
+		{
+			init();
+		}
+
+		~Commands()
+		{
+
+		}
 	
 	private:
 
-		string list[3];
+		string list[7];
 		string subCommands[3];
 
 		Tree tree;
+		DirectoryHandler dh;
 
 		void init()
 		{
 			list[0] = "print";
 			list[1] = "insert";
 			list[2] = "remove";
+			list[3] = "help";
+			list[4] = "ls";
+			list[5] = "cd";
+			list[6] = "q";
 
 			subCommands[0] =
 			"print 'name'";
@@ -57,46 +140,6 @@ class Commands
 					return true;
 			}
 			return false;
-		}
-		
-	public:
-
-		void run(string command, Tokenizer tokenizer)
-		{
-			if(exists(command))
-			{
-				if(tokenizer.hasNext())
-				{
-					string tok = tokenizer.getNext();
-					if(tok == "-h")
-					{
-						help(command);
-						return;
-					}
-					
-					if(command == "print")
-					{
-						print(tok, tokenizer);
-						return;
-					}
-
-					if(command == "insert")
-					{
-						insert(tok, tokenizer);
-						return;
-					}
-
-					if(command == "remove")
-					{
-						remove(tok, tokenizer);
-						return;
-					}
-				}
-				else
-				{
-					cout << "'print -h' for list of subcommands" << endl;
-				}
-			}
 		}
 
 		void print(string option, Tokenizer tokenizer)
@@ -174,14 +217,18 @@ class Commands
 			}
 		}
 
-		Commands()
-		{
-			init();
-		}
-
-		~Commands()
+		void help()
 		{
 
+			cout << endl << "COMMANDS" << endl <<
+							"________" << endl;
+							
+			for(int i = 0; i < sizeof(list)/sizeof(string); i ++)
+			{
+				cout << list[i] << endl;
+			}
+
+			cout << "________" << endl << endl;
 		}
 
 };
