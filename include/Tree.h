@@ -21,9 +21,16 @@ class Tree
 			destroy(root);
 		}
 		
-		bool insert(std::string key)
+		bool isEmpty()
 		{
-			return insert(root, key);
+			if(root)
+				return false;
+			return true;
+		}
+
+		bool insert(std::string key, std::string txt)
+		{
+			return insert(root, key, txt);
 		}
 
 		bool remove(std::string key)
@@ -57,21 +64,29 @@ class Tree
 			}
 		}
 
-		bool insert(Node *&root, std::string key)
+		bool insert(Node *&root, std::string key, string txt)
 		{
 			if(!root)
 			{
 				root = new Node(key);
+				root->addText(txt);
 
 				return true;
 			}
 			else if(key < root->key)
 			{
-				return insert(root->left, key);
+				return insert(root->left, key, txt);
 			}
 			else if(key > root->key)
 			{
-				return insert(root->right, key);
+				return insert(root->right, key, txt);
+			}
+			else
+			{
+				root->addText(txt);
+				root->freq ++;
+
+				return true;
 			}
 
 			return false;
@@ -109,7 +124,7 @@ class Tree
 			}
 			else
 			{
-				std::cout << root->key << std::endl;
+				std::cout << "key '" << root->key << "'" << std::endl;
 
 				print(root->left);
 				print(root->right);

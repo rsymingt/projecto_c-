@@ -251,11 +251,13 @@ class Commands
 			{
 				if(tokenizer.hasNext())
 				{
-					string key = tokenizer.getString();
-					if(key.size() > 0)
-						if(tree.insert(key))
+					string key = tokenizer.getNext();
+					if(tokenizer.hasNext())
+					{
+						string txt = tokenizer.getNext();
+						if(tree.insert(key, txt))
 							cout << "'" << key << "' inserted successfully" << endl;
-
+					}
 				}
 			}
 

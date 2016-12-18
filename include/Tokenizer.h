@@ -7,6 +7,7 @@ class Tokenizer
 	private:
 		string str;
 		char delimiter;
+		string strDelimiter;
 
 	public:
 		string getNext()
@@ -72,6 +73,17 @@ class Tokenizer
 		Tokenizer(char delimiter)
 		{
 			this->delimiter = delimiter;
+		}
+
+		Tokenizer(string str, string strDelimiter)
+		{
+			this->str = str;
+			this->strDelimiter = strDelimiter;
+		}
+
+		Tokenizer(string strDelimiter)
+		{
+			this->strDelimiter = strDelimiter;
 		}
 
 		~Tokenizer()

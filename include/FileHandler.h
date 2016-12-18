@@ -57,6 +57,20 @@ class FileHandler
 			struct stat buffer;   
   			if(stat (filename.c_str(), &buffer) == 0)
   			{
+
+  				if(!tree->isEmpty()){
+	  				std::string answer;
+	  				while(answer != "y" && answer != "Y" && answer != "n" && answer != "N")
+	  				{
+		  				std::cout << "would you like to append to existing tree? (Y/N) ";
+		  				std::getline(std::cin, answer);
+		  			}
+		  			if(answer == "n" || answer == "N")
+		  			{
+		  				tree->destroy();
+		  			}
+	  			}
+
   				std::ifstream file(filename.c_str());
 
   				string str;
@@ -69,13 +83,27 @@ class FileHandler
 				            std::istreambuf_iterator<char>());
 
 				
-				int last;
-				for(last = 0; str.find("\n\n", last) != -1; last = str.find("\n\n", last) + 2)
+				string last = str;
+				for(int i = 0; (i = last.find("\n\n")) != -1;)
 				{
-					string holder = str.substr(last, str.find("\n\n", last) + 2);
-					cout << holder << "end" << endl;
+
+					string para = last.substr(0, i + 2);
+					int start = 0;
+					for(; para[start] == '\n'; start ++);
+					para = para.substr(start);
+
+
+					writeKeys(tree, para);
+
+
+					//cout << para;
+					last = last.substr(i+2);
 				}
-				cout << str.substr(last);
+				string para = last;
+
+				writeKeys(tree, para);
+
+				cout << "tree successful created from file '" << filename << "'" << endl;
 
   				file.close();
   			}
@@ -92,5 +120,26 @@ class FileHandler
 			file << contents;
 
 			file.close();
+		}
+
+		static void writeKeys(Tree *tree, string para)
+		{
+			Tokenizer tokenizer(para, ' ');
+
+			while(tokenizer.hasNext())
+			{
+				string tok = tokenizer.getNext();
+				if(tok.find("\n") != -1)
+				{
+					Tokenizer endlineTokenizer(tok, '\n');
+					while(endlineTokenizer.hasNext())
+					{
+						tok = endlineTokenizer.getNext();
+						tree->insert(tok, para);
+					}
+				}
+				else
+					tree->insert(tok, para);
+			}
 		}
 };

@@ -1,14 +1,29 @@
 
+#include "LinkedList.h"
+
 class Node
 {
 		
 	private:
 		Node *left;
 		Node *right;
+		LinkedList list;
+
 		std::string key;
-		short int height;
+		int height;
+		int freq;
 
 	public:
+		void addText(string txt)
+		{
+			list.insert(txt);
+		}
+
+		void printList()
+		{
+			list.print();
+		}
+
 		Node(std::string key)
 		{
 			this->key = key;
