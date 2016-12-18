@@ -25,7 +25,10 @@ class Commands
 				//list directories
 				else if(command == "ls")
 				{
-					dh.ls();
+					system(command.c_str());
+					char *test = getenv("LAST");
+					if(test)
+						cout << test;
 				}
 
 				//change current director
@@ -35,6 +38,40 @@ class Commands
 					{
 						string tok = tokenizer.getNext();
 						dh.cd(tok);
+					}
+				}
+
+				//system rm
+				else if(command == "rm")
+				{
+					if(tokenizer.hasNext())
+					{
+						string syscommand = command + " " + tokenizer.getString();
+						system(syscommand.c_str());
+						char *test = getenv("LAST");
+						if(test)
+							cout << test;
+					}
+					else
+					{
+						cout << "refer to man page for system commands" << endl;
+					}
+				}
+
+				//make directory
+				else if(command == "mkdir")
+				{
+					if(tokenizer.hasNext())
+					{
+						string dir = "mkdir " + tokenizer.getString();
+						system(dir.c_str());
+						char *test = getenv("LAST");
+						if(test)
+							cout << test;
+					}
+					else
+					{
+						cout << "refer to man page for system commands" << endl;
 					}
 				}
 
@@ -53,21 +90,24 @@ class Commands
 						return;
 					}
 
-					if(command == "insert")
+					else if(command == "insert")
 					{
 						insert(tok, tokenizer);
-						return;
 					}
 
-					if(command == "remove")
+					else if(command == "remove")
 					{
 						remove(tok, tokenizer);
-						return;
+					}
+
+					else if(command == "create")
+					{
+						create(tok, tokenizer);
 					}
 				}
 				else
 				{
-					cout << "'print -h' for list of subcommands" << endl;
+					cout << "'COMMAND -h' for list of subcommands" << endl;
 				}
 			}
 		}
@@ -89,8 +129,9 @@ class Commands
 	
 	private:
 
-		string list[7];
-		string subCommands[3];
+		string list[10];
+		string listInfo[10];
+		string subCommands[10];
 
 		Tree tree;
 		DirectoryHandler dh;
@@ -100,24 +141,61 @@ class Commands
 			list[0] = "print";
 			list[1] = "insert";
 			list[2] = "remove";
-			list[3] = "help";
-			list[4] = "ls";
-			list[5] = "cd";
-			list[6] = "q";
+			list[3] = "create";
+			list[4] = "help";
+			list[5] = "ls";
+			list[6] = "cd";
+			list[7] = "q";
+			list[8] = "mkdir";
+			list[9] = "rm";
+
+			//GOING TO BE USED WHEN HELP IS RUN;
+			listInfo[0] = " - prints [option] name\n";
+			listInfo[1] = " - insert [option] name\n";
+			listInfo[2] = " - remove [option] name\n";
+
 
 			subCommands[0] =
-			"print 'name'";
+			"print [option] 'name'\n\n"
+			"options\n"
+			"-f - prints given filename or extended pathname";
 
 			subCommands[1] =
 			"insert [option] 'name'\n\n"
 			"options\n"
-			"-t    - inserts to object of type tree";
+			"-t    - inserts to object of type tree\n"
+			"-f    - inserts content into file";
 
 			subCommands[2] =
 			"remove [option] 'name'\n\n"
 			"options\n"
 			"-t    - removes from object of type tree\n"
-			"-r    - resets the tree";
+			"-r    - resets the tree\n"
+			"-f    - removes said file";
+
+			subCommands[3] = 
+			"create [option] 'name'\n\n"
+			"options\n"
+			"-f    - run text editor on specified file\n"
+			"-t    - create avl tree out of file";
+		}
+
+		void create(string option, Tokenizer tokenizer)
+		{
+			if(tokenizer.hasNext())
+			{
+				if(option == "-f")
+				{
+					string filename = "nano " + tokenizer.getNext();
+					system(filename.c_str());
+				}
+
+				else if(option == "-t")
+				{
+					string filename = tokenizer.getNext();
+					FileHandler::makeTree(&tree, filename);
+				}
+			}
 		}
 
 		void help(string str)
@@ -126,8 +204,10 @@ class Commands
 			{
 				if(list[i] == str)
 				{
-					std::cout << "here is a list of some common print commands" << std::endl;
+					cout << endl << "here is a list of some common print commands" << endl;
+					cout << 	 "--------------------------------------------" << endl << endl;
 					cout << subCommands[i] << endl;
+					cout << endl << "--------------------------------------------" << endl << endl;
 				}
 			}
 		}
@@ -155,7 +235,7 @@ class Commands
 				if(tokenizer.hasNext())
 				{
 					string tok = tokenizer.getNext();
-					FileHandler::readFile(&tree, tok);
+					FileHandler::readFile(tok, tokenizer);
 				}
 			}
 			else
@@ -178,6 +258,28 @@ class Commands
 
 				}
 			}
+
+			//insert into a file
+			else if(option == "-f")
+			{
+				if(tokenizer.hasNext())
+				{
+					string filename = tokenizer.getNext();
+					if(tokenizer.hasNext())
+					{
+						string content = tokenizer.getNext();
+						FileHandler::writeFile(filename, content);
+					}
+				}
+			}
+
+			//removes a directory and its contents CAREFUL!
+			else if(option == "-d")
+			{
+				//left out for now...
+			}
+
+			//unknown command
 			else
 			{
 				cout << "unknown command, type 'print -h' for help" << endl;
@@ -211,6 +313,8 @@ class Commands
 					}
 				}
 			}
+
+			//unknown command
 			else
 			{
 				cout << "unknown commands, type 'remove -h' for help" << endl;
@@ -221,14 +325,14 @@ class Commands
 		{
 
 			cout << endl << "COMMANDS" << endl <<
-							"________" << endl;
+							"--------" << endl;
 							
 			for(int i = 0; i < sizeof(list)/sizeof(string); i ++)
 			{
 				cout << list[i] << endl;
 			}
 
-			cout << "________" << endl << endl;
+			cout << "--------" << endl << endl;
 		}
 
 };

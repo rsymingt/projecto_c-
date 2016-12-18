@@ -12,7 +12,7 @@ class FileHandler
 {
 	public:
 
-		static void readFile(Tree *tree, string filename)
+		static void readFile(string filename, Tokenizer tokenizer)
 		{
 			struct stat buffer;   
   			if(stat (filename.c_str(), &buffer) == 0)
@@ -28,12 +28,21 @@ class FileHandler
 				str.assign((std::istreambuf_iterator<char>(file)),
 				            std::istreambuf_iterator<char>());
 
-				for(int last = 0; str.find("\r\n\r\n", last) != -1; last = str.find("\r\n\r\n", last) + 4)
+				if(tokenizer.hasNext())
 				{
-					string para = str.substr(last, str.find("\r\n\r\n", last));
-					cout << para << endl;
-					cout << "end para" << endl;
+					std::ofstream fileout(tokenizer.getNext().c_str());
+
+					for(int i = 0; i < str.size(); i ++)
+					{
+						if(str[i] == '\n')
+							fileout << (int)str[i] << endl;
+						else
+							fileout << (int)str[i] << ",";
+					}
+					fileout << endl;
 				}
+				else
+					cout << str << endl;
 
   				file.close();
   			}
@@ -41,5 +50,47 @@ class FileHandler
   			{
   				cout << "file does not exists" << endl;
   			}
+		}
+
+		static void makeTree(Tree *tree, string filename)
+		{
+			struct stat buffer;   
+  			if(stat (filename.c_str(), &buffer) == 0)
+  			{
+  				std::ifstream file(filename.c_str());
+
+  				string str;
+
+				file.seekg(0, std::ios::end);   
+				str.reserve(file.tellg());
+				file.seekg(0, std::ios::beg);
+
+				str.assign((std::istreambuf_iterator<char>(file)),
+				            std::istreambuf_iterator<char>());
+
+				
+				int last;
+				for(last = 0; str.find("\n\n", last) != -1; last = str.find("\n\n", last) + 2)
+				{
+					string holder = str.substr(last, str.find("\n\n", last) + 2);
+					cout << holder << "end" << endl;
+				}
+				cout << str.substr(last);
+
+  				file.close();
+  			}
+  			else
+  			{
+  				cout << "file does not exists" << endl;
+  			}
+		}
+
+		static void writeFile(string filename, string contents)
+		{
+			std::ofstream file(filename.c_str());
+
+			file << contents;
+
+			file.close();
 		}
 };

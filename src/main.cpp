@@ -10,8 +10,6 @@ using std::endl;
 
 using std::string;
 
-void print(Tokenizer tokenizer);
-
 int main()
 {
 
@@ -21,7 +19,8 @@ int main()
 	Tokenizer tokenizer(' ');
 
 	cout << "Welcome to Projecto type help for a list of commands" << endl <<
-			"____________________________________________________" << endl;
+			"----------------------------------------------------" << endl << endl;
+
 	while(true){
 
 		cout << commands.getCurrentDirectory() << "$ ";

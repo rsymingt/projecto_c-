@@ -2,73 +2,55 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/ioctl.h>
+#include <string.h>
 
 class DirectoryHandler
 {
 
 	private:
-
+		string initialDir;
 
 	public:
 
-		void currentPath()
-		{
-
-		}
-
 		void cd(string dir)
 		{
-
-		}
-
-		void ls()
-		{
-			DIR *dir;
-			struct dirent *ent;
-			if ((dir = opendir ("./")) != NULL) {
-				/* print all the files and directories within directory */
-				cout << endl;
-				while ((ent = readdir (dir)) != NULL) {
-					if(*(ent->d_name) != '.')
-					{
-						string str(ent->d_name);
-						if(str.find(".") != -1)
-							cout << "\033[31m" << ent->d_name << "    ";
-						else
-							cout << "\033[32m" << ent->d_name << "    ";
-					}
+			if((initialDir.find('/') != -1 || dir != "..") && chdir(dir.c_str()) < 0)
+			{
+				cout << "directory not found" << endl;
+			}
+			else
+			{
+				if(dir != "." && dir != "..")
+					initialDir += "/" + dir;
+				else if(dir == "..")
+				{
+					int index = initialDir.rfind('/');
+					if(index != -1)
+						initialDir = initialDir.substr(0, index);
 				}
-				cout << "\033[0m";
-				cout << endl;
-				closedir (dir);
-			} else {
-				/* could not open directory */
-				perror ("");
-				//return EXIT_FAILURE;
 			}
 		}
 
 		string getCurrentDirectory()
 		{
-			char *holder = get_current_dir_name();
-			string str;
-			if(holder)
-			{
-				str = holder;
-				free(holder);
-				int index = str.rfind('/');
-				if(index != -1)
-				{
-					str = str.substr(index);
-					str[0] = '~';
-				}
-			}
-			return str;
+			return initialDir;
 		}
 
 		DirectoryHandler()
 		{
-
+			char *holder = get_current_dir_name();
+			if(holder)
+			{
+				initialDir = holder;
+				free(holder);
+				int index = initialDir.rfind('/');
+				if(index != -1)
+				{
+					initialDir = initialDir.substr(index);
+					initialDir[0] = '~';
+				}
+			}
 		}
 
 		~DirectoryHandler()
