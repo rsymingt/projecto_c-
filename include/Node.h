@@ -62,11 +62,12 @@ class Node
 			
 		}
 
-		Node(std::string key)
+		Node(std::string key, std::string txt)
 		{
 			this->key = key;
-			this->height = 0;
-
+			list.insert(txt);
+			
+			height = 0;
 			freq = 1;
 
 			left = NULL;

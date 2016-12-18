@@ -48,7 +48,57 @@ class LinkedList
 			}
 		}
 
+		void clone(Record *&record, LinkedList *&newList)
+		{
+			if(!record)
+			{
+				return;
+			}
+			else
+			{
+				newList->insert(record->txt);
+				clone(record->next, newList);
+			}
+		}
+
+		bool remove(Record *&record, string txt)
+		{
+			if(!record)
+			{
+				return false;
+			}
+			else
+			{
+				if(record->txt.compare(txt) == 0)
+				{
+					Record *next = record->next;
+					delete record;
+					record = next;
+					return true;
+				}
+				return remove(record->next, txt);
+			}
+		}
+
 	public:
+
+		LinkedList * clone()
+		{
+			LinkedList *newList = new LinkedList();
+			clone(record, newList);
+			
+			return newList;
+		}
+
+		Record * getRecord()
+		{
+			return record;
+		}
+
+		bool remove(string txt)
+		{
+			return remove(record, txt);
+		}
 
 		bool insert(string txt)
 		{

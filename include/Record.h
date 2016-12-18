@@ -13,9 +13,14 @@ class Record
 			this->txt = txt;
 		}
 
-		string gettxt()
+		string getText()
 		{
 			return txt;
+		}
+
+		Record * getNext()
+		{
+			return next;
 		}
 
 		Record(string txt)

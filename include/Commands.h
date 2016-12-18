@@ -104,6 +104,11 @@ class Commands
 					{
 						create(tok, tokenizer);
 					}
+
+					else if(command == "search")
+					{
+						search(tok, tokenizer);
+					}
 				}
 				else
 				{
@@ -119,19 +124,26 @@ class Commands
 
 		Commands()
 		{
+			lastSearchList = NULL;
 			init();
 		}
 
 		~Commands()
 		{
-
+			if(lastSearchList)
+			{
+				delete lastSearchList;
+				lastSearchList = NULL;
+			}
 		}
 	
 	private:
 
-		string list[10];
-		string listInfo[10];
-		string subCommands[10];
+		string list[11];
+		string listInfo[11];
+		string subCommands[11];
+
+		LinkedList *lastSearchList;
 
 		Tree tree;
 		DirectoryHandler dh;
@@ -148,6 +160,7 @@ class Commands
 			list[7] = "q";
 			list[8] = "mkdir";
 			list[9] = "rm";
+			list[10] = "search";
 
 			//GOING TO BE USED WHEN HELP IS RUN;
 			listInfo[0] = " - prints [option] name\n";
@@ -159,6 +172,7 @@ class Commands
 			listInfo[7] = " - terminates program\n";
 			listInfo[8] = " - make directory\n";
 			listInfo[9] = " - remove [option] name";
+			listInfo[10] = " - search [option] name";
 
 
 			subCommands[0] =
@@ -184,6 +198,31 @@ class Commands
 			"options\n"
 			"-f    - run text editor on specified file\n"
 			"-t    - create avl tree out of file";
+
+			subCommands[10] =
+			"search [option] name\n\n"
+			"-t    - searchs through tree for multiple search terms";
+		}
+
+		void search(string option, Tokenizer tokenizer)
+		{
+			if(tokenizer.hasNext())
+			{
+				if(lastSearchList)
+				{
+					delete lastSearchList;
+					lastSearchList = NULL;
+				}
+				//search tree for terms
+				if(option == "-t")
+				{
+					lastSearchList = tree.search(lastSearchList, tokenizer);
+					if(lastSearchList)
+					{
+						lastSearchList->print();
+					}
+				}
+			}
 		}
 
 		void create(string option, Tokenizer tokenizer)
@@ -206,7 +245,7 @@ class Commands
 
 		void help(string str)
 		{
-			for(int i = 0; i < str.size() ; i ++)
+			for(int i = 0; i < sizeof(list)/sizeof(string) ; i ++)
 			{
 				if(list[i] == str)
 				{

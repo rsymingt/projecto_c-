@@ -6,9 +6,9 @@ class Tree
 	
 	public:
 
-		Tree(std::string key)
+		Tree(std::string key, std::string txt)
 		{
-			root = new Node(key);
+			root = new Node(key, txt);
 		}
 
 		Tree()
@@ -56,8 +56,91 @@ class Tree
 			}
 		}
 
+		LinkedList * search(LinkedList *lastSearchList, Tokenizer tokenizer)
+		{
+			LinkedList *list;
+ 			
+ 			if(tokenizer.hasNext())
+ 			{
+
+				if(Node *found = get(root, tokenizer.getNext()))
+				{
+					list = found->list.clone();
+					if(list)
+					{
+						while(tokenizer.hasNext())
+						{
+							if(found = get(root, tokenizer.getNext()))
+							{
+								LinkedList *crossmatch = found->list.clone();
+								if(crossmatch)
+								{
+									Record *record = list->getRecord();
+									while(record)
+									{
+										Record *crossRecord = crossmatch->getRecord();
+										bool found = false;
+										while(crossRecord)
+										{
+											if(record->getText().compare(crossRecord->getText()) == 0)
+												found = true;
+											crossRecord = crossRecord->getNext();
+										}
+										if(!found)
+										{
+											list->remove(record->getText());
+										}
+										record = record->getNext();
+									}
+									delete crossmatch;
+									crossmatch = NULL;
+								}
+								else
+								{
+									delete list;
+									list = NULL;
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					//change!
+					std::cout << "NOT FOUND" << std::endl;
+				}
+
+			}
+			else
+			{
+				std::cout << "please enter in some terms" << std::endl;
+			}
+
+			return list;
+		}
+
 	private:
 		Node *root;
+
+		Node * get(Node *root, std::string key)
+		{
+			if(!root)
+			{
+				return root;
+			}
+			else if(key.compare(root->key) < 0)
+			{
+				return get(root->left, key);
+			}
+			else if(key.compare(root->key) > 0)
+			{
+				return get(root->right, key);
+			}
+			else
+			{
+				return root;
+			}
+		}
 
 		void destroy(Node *&root)
 		{
@@ -76,16 +159,15 @@ class Tree
 			bool result=false;
 			if(!root)
 			{
-				root = new Node(key);
-				root->addText(txt);
+				root = new Node(key, txt);
 
 				return true;
 			}
-			else if(key < root->key)
+			else if(key.compare(root->key) < 0)
 			{
 				result = insert(root->left, key, txt);
 			}
-			else if(key > root->key)
+			else if(key.compare(root->key) > 0)
 			{
 				result = insert(root->right, key, txt);
 			}
@@ -129,13 +211,13 @@ class Tree
 		Node * rotateRight(Node *&root)
 		{
 			Node *leftChild = root->left;
+
 			root->left = leftChild->right;
 
 			leftChild->right = root;
 
-			//leftChild->height = leftChild->getHeight();
-			//leftChild->left->height = leftChild->left->getHeight();
-			//leftChild->right->height = leftChild->right->getHeight();
+			leftChild->height = leftChild->getHeight();
+			root->height = root->getHeight();
 
 			return leftChild;
 		}
@@ -147,9 +229,8 @@ class Tree
 
 			rightChild->left = root;
 
-			//rightChild->height = rightChild->getHeight();
-			//rightChild->left->height = rightChild->left->getHeight();
-			//rightChild->right->height = rightChild->right->getHeight();
+			rightChild->height = rightChild->getHeight();
+			root->height = root->getHeight();
 
 			return rightChild;
 		}
@@ -163,11 +244,11 @@ class Tree
 
 				return false;
 			}
-			else if(key < root->key)
+			else if(key.compare(root->key) < 0)
 			{
 				result = remove(root->left, key);
 			}
-			else if(key > root->key)
+			else if(key.compare(root->key) > 0)
 			{
 				result = remove(root->right, key);
 			}
