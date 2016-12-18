@@ -117,6 +117,7 @@ class FileHandler
 		{
 			std::ofstream file(filename.c_str());
 
+			//ERASES ORIGINAL CONTENTS
 			file << contents;
 
 			file.close();
@@ -135,11 +136,13 @@ class FileHandler
 					while(endlineTokenizer.hasNext())
 					{
 						tok = endlineTokenizer.getNext();
-						tree->insert(tok, para);
+						if(tok.size() > 0)
+							tree->insert(tok, para);
 					}
 				}
 				else
-					tree->insert(tok, para);
+					if(tok.size() > 0)
+						tree->insert(tok, para);
 			}
 		}
 };

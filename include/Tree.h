@@ -46,7 +46,14 @@ class Tree
 
 		void print()
 		{
-			print(root);
+			if(root)
+			{
+				for(int i = 0; i <= root->height; i ++)
+				{
+					print(root, 0, i);
+					std::cout << std::endl;
+				}
+			}
 		}
 
 	private:
@@ -56,8 +63,8 @@ class Tree
 		{
 			if(root)
 			{
-				delete(root->left);
-				delete(root->right);
+				destroy(root->left);
+				destroy(root->right);
 
 				delete root;
 				root = NULL;
@@ -66,6 +73,7 @@ class Tree
 
 		bool insert(Node *&root, std::string key, string txt)
 		{
+			bool result=false;
 			if(!root)
 			{
 				root = new Node(key);
@@ -75,11 +83,11 @@ class Tree
 			}
 			else if(key < root->key)
 			{
-				return insert(root->left, key, txt);
+				result = insert(root->left, key, txt);
 			}
 			else if(key > root->key)
 			{
-				return insert(root->right, key, txt);
+				result = insert(root->right, key, txt);
 			}
 			else
 			{
@@ -88,12 +96,67 @@ class Tree
 
 				return true;
 			}
+			if(!root)
+				return result;
 
-			return false;
+			root->height = root->getHeight();
+
+			int balance = root->getBalance();
+
+			if(balance > 1 && key < root->left->key)
+	        {
+	                root = rotateRight(root);
+	        }
+	        else if(balance < -1 && key > root->right->key)
+	        {
+	                root = rotateLeft(root);
+	        }
+	        else if(balance > 1 && key > root->left->key)
+	        {
+	                root->left = rotateLeft(root->left);
+	                root = rotateRight(root);
+	        }
+	        else if(balance < -1 && key < root->right->key)
+	        {
+	                root->right = rotateRight(root->right);
+	                root = rotateLeft(root);
+	        }
+
+
+			return result;
+		}
+
+		Node * rotateRight(Node *&root)
+		{
+			Node *leftChild = root->left;
+			root->left = leftChild->right;
+
+			leftChild->right = root;
+
+			//leftChild->height = leftChild->getHeight();
+			//leftChild->left->height = leftChild->left->getHeight();
+			//leftChild->right->height = leftChild->right->getHeight();
+
+			return leftChild;
+		}
+
+		Node * rotateLeft(Node *root)
+		{
+			Node *rightChild = root->right;
+			root->right = rightChild->left;
+
+			rightChild->left = root;
+
+			//rightChild->height = rightChild->getHeight();
+			//rightChild->left->height = rightChild->left->getHeight();
+			//rightChild->right->height = rightChild->right->getHeight();
+
+			return rightChild;
 		}
 
 		bool remove(Node *&root, std::string key)
 		{
+			bool result = false;
 			if(!root)
 			{
 				std::cout << "node_not_found" << std::endl;
@@ -102,32 +165,110 @@ class Tree
 			}
 			else if(key < root->key)
 			{
-				return remove(root->left, key);
+				result = remove(root->left, key);
 			}
 			else if(key > root->key)
 			{
-				return remove(root->right, key);
+				result = remove(root->right, key);
 			}
 			else
 			{
-				delete root;
-				root = NULL;
-				return true;
+				if(root->freq == 1)
+                {
+                    if(!root->left || !root->right)
+                    {
+
+                            Node *temp = root->left ? root->left : root->right;
+
+                            if(!temp)
+                            {
+                                    delete root;
+                                    root = NULL;
+                            }
+                            else
+                            {
+                                    *root = *temp;
+                            }
+
+                            delete temp;
+                    }
+                    else
+                    {
+                            Node *temp = findMin(root->right);
+
+                            root->key = temp->key;
+                            root->freq = temp->freq;
+                            temp->freq = 1;
+                            
+                            result = remove(root->right, temp->key);
+                    }
+                }
+                else
+                {
+                        root->freq --;
+                }
+            }
+
+            if(root == NULL)
+            	return result;
+
+            root->height = root->getHeight();
+
+			int balance = root->getBalance();
+
+			if(balance > 1 && key.compare(root->left->key) < 0)
+	        {
+	            root = rotateRight(root);
+	        }
+	        else if(balance < -1 && key.compare(root->right->key) > 0)
+	        {
+	            root = rotateLeft(root);
+	        }
+	        else if(balance > 1 && key.compare(root->left->key) > 0)
+	        {
+	            root->left = rotateLeft(root->left);
+	            root = rotateRight(root);
+	        }
+	        else if(balance < -1 && key.compare(root->right->key) < 0)
+	        {
+	            root->right = rotateRight(root->right);
+	            root = rotateLeft(root);
+        	}
+
+			return result;
+		}
+
+		Node * findMin(Node *root)
+		{
+			if(root->left)
+			{
+				Node *found = findMin(root->left);
+			}
+			else
+			{
+				return root;
 			}
 		}
 
-		void print(Node *root)
+		void print(Node *root, int depth, int height)
 		{
-			if(!root)
+			if(depth == height)
 			{
-				return;
+				if(root)
+				{
+					std::cout << root->key << " ";
+					//root->printList();
+					//std::cout << std::endl;
+				}
+				else
+				{
+					std::cout << "N ";
+				}
 			}
-			else
+			if(root)
 			{
-				std::cout << "key '" << root->key << "'" << std::endl;
-
-				print(root->left);
-				print(root->right);
+				print(root->left, depth + 1, height);
+				print(root->right, depth + 1, height);
 			}
 		}
 

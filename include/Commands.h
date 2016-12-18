@@ -153,6 +153,12 @@ class Commands
 			listInfo[0] = " - prints [option] name\n";
 			listInfo[1] = " - insert [option] name\n";
 			listInfo[2] = " - remove [option] name\n";
+			listInfo[3] = " - create [option] name\n";
+			listInfo[5] = " - list files in current directory\n";
+			listInfo[6] = " - change directory\n";
+			listInfo[7] = " - terminates program\n";
+			listInfo[8] = " - make directory\n";
+			listInfo[9] = " - remove [option] name";
 
 
 			subCommands[0] =
@@ -327,14 +333,18 @@ class Commands
 		{
 
 			cout << endl << "COMMANDS" << endl <<
-							"--------" << endl;
+							"------------------------" << endl;
 							
 			for(int i = 0; i < sizeof(list)/sizeof(string); i ++)
 			{
-				cout << list[i] << endl;
+				if(list[i] != "help")
+				{
+					cout << list[i];
+					cout << listInfo[i] << endl;
+				}
 			}
 
-			cout << "--------" << endl << endl;
+			cout << "------------------------" << endl << endl;
 		}
 
 };
