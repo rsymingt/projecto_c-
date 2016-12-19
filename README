@@ -1,0 +1,12 @@
+Project Organization
+
+- used to create avl based indexes on a file and search terms (delimted by spaces)
+	in that file and print out the related paragraphs those keys were in
+  
+Ease of use
+- can navigate through directories, create files (using nano), print files to console,
+  make directories, and more. all done within the program
+  
+Commands
+- for now typing 'help' within program lists commands, typing '-h' after command lists
+  sub-commands. if it doesn't have a '-h' function it is a noraml UNIX command
