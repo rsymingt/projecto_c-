@@ -92,8 +92,7 @@ class FileHandler
 	  				tree->destroy();
 	  			}
   			}
-
-  			std::cout << "YES" << std::endl;
+  			
 			std::ifstream file(filename.c_str());
 
 			string str;
