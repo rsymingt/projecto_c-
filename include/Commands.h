@@ -143,6 +143,7 @@ class Commands
 		string listInfo[11];
 		string subCommands[11];
 
+		string lastTerms;
 		LinkedList *lastSearchList;
 
 		Tree tree;
@@ -178,7 +179,9 @@ class Commands
 			subCommands[0] =
 			"print [option] 'name'\n\n"
 			"options\n"
-			"-f - prints given filename or extended pathname";
+			"-f - prints given filename or extended pathname\n"
+			"-t - prints the current tree\n"
+			"-l - prints the last searched terms/items";
 
 			subCommands[1] =
 			"insert [option] 'name'\n\n"
@@ -216,10 +219,20 @@ class Commands
 				//search tree for terms
 				if(option == "-t")
 				{
+					lastTerms = tokenizer.getString();
 					lastSearchList = tree.search(lastSearchList, tokenizer);
 					if(lastSearchList)
 					{
+						cout << endl << "results for search terms, ";
+						Tokenizer tokenizerTerms(lastTerms, ' ');
+						while(tokenizerTerms.hasNext())
+						{
+							cout << "'" << tokenizerTerms.getNext() << "' ";
+						}
+						cout << endl;
+						cout <<      "--------------------------" << endl;
 						lastSearchList->print();
+						cout << endl << "--------------------------" << endl;
 					}
 				}
 			}
@@ -235,10 +248,27 @@ class Commands
 					system(filename.c_str());
 				}
 
+				//create tree out of directory or file
 				else if(option == "-t")
 				{
 					string filename = tokenizer.getNext();
-					FileHandler::makeTree(&tree, filename);
+
+					struct stat buffer;   
+		  			if(stat (filename.c_str(), &buffer) == 0)
+		  			{
+		  				if(buffer.st_mode & S_IFDIR)
+		  				{
+		  					FileHandler::recurseDir(&tree, filename);
+						}
+						else if(buffer.st_mode & S_IFREG)
+						{
+							FileHandler::makeTree(&tree, filename, 0);
+						}
+					}
+					else
+					{
+						cout << "file not found" << endl;
+					}
 				}
 			}
 		}
@@ -269,7 +299,8 @@ class Commands
 
 		void print(string option, Tokenizer tokenizer)
 		{
-			if(option == "tree")
+			//print tree
+			if(option == "-t")
 			{
 				tree.print();
 			}
@@ -279,10 +310,29 @@ class Commands
 			{
 				if(tokenizer.hasNext())
 				{
-					string tok = tokenizer.getNext();
-					FileHandler::readFile(tok, tokenizer);
+					string tok = tokenizer.getString();
+					FileHandler::readFile(tok);
 				}
 			}
+
+			//print last searched list
+			else if(option == "-l")
+			{
+				if(lastSearchList)
+				{
+					cout << endl << "results for search terms, ";
+					Tokenizer tokenizerTerms(lastTerms, ' ');
+					while(tokenizerTerms.hasNext())
+					{
+						cout << "'" << tokenizerTerms.getNext() << "' ";
+					}
+					cout << endl;
+					cout <<      "--------------------------" << endl;
+					lastSearchList->print();
+					cout << endl << "--------------------------" << endl;
+				}
+			}
+
 			else
 			{
 				cout << "unknown command, type 'print -h' for help" << endl;
@@ -351,14 +401,7 @@ class Commands
 			//destroy entire tree
 			else if(option == "-r")
 			{
-				if(tokenizer.hasNext())
-				{
-					string tok = tokenizer.getNext();
-					if(tok == "tree")
-					{
-						tree.destroy();
-					}
-				}
+				tree.destroy();
 			}
 
 			//unknown command

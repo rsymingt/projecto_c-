@@ -75,17 +75,6 @@ class Tokenizer
 			this->delimiter = delimiter;
 		}
 
-		Tokenizer(string str, string strDelimiter)
-		{
-			this->str = str;
-			this->strDelimiter = strDelimiter;
-		}
-
-		Tokenizer(string strDelimiter)
-		{
-			this->strDelimiter = strDelimiter;
-		}
-
 		~Tokenizer()
 		{
 		}
