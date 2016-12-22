@@ -1,0 +1,20 @@
+basic
+echo "string" - outputs to terminal
+read -p "string" var - waits for input stores in var
+
+declare
+-a	Variable is an array.
+-f	Use function names only.
+-i	The variable is to be treated as an integer; arithmetic evaluation is performed when the variable is assigned a value (see Section 3.4.6).
+-p	Display the attributes and values of each variable. When -p is used, additional options are ignored.
+-r	Make variables read-only. These variables cannot then be assigned values by subsequent assignment statements, nor can they be unset.
+-t	Give each variable the trace attribute.
+-x	Mark each variable for export to subsequent commands via the environment.
+
+declare
+[bob in ~] declare -i VARIABLE=12
+[bob in ~] VARIABLE=string
+[bob in ~] echo $VARIABLE
+0
+[bob in ~] declare -p VARIABLE
+declare -i VARIABLE="0"

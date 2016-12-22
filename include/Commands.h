@@ -172,7 +172,7 @@ class Commands
 			listInfo[6] = " - change directory\n";
 			listInfo[7] = " - terminates program\n";
 			listInfo[8] = " - make directory\n";
-			listInfo[9] = " - remove [option] name";
+			listInfo[9] = " - remove [option] name\n";
 			listInfo[10] = " - search [option] name";
 
 
