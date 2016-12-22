@@ -23,7 +23,7 @@ int main()
 
 	while(true){
 
-		cout << commands.getCurrentDirectory() << "$ ";
+		cout << commands.getCurrentDirectory() << "$ " << std::flush;
 		std::getline(cin, usr_input);
 
 		tokenizer.setString(usr_input);
