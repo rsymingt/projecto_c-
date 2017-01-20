@@ -1,0 +1,12 @@
+Analysis of recursive algorithms
+	n = input size
+	identify basic operation
+	check if basic operation varies depending on input size
+	set up recurrence relation
+	solve recurrence relation
+
+Recurrence function
+	function which the answer is based upon itself
+	f(n) = f(n-1) + 1, n >= 1;
+	n = 1, n == 0;
+	
