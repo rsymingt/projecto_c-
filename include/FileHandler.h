@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <string.h>
 
 using std::cout;
 using std::endl;
@@ -114,6 +115,7 @@ class FileHandler
 				for(; para[start] == '\n'; start ++);
 				para = para.substr(start);
 
+				//para = toLower(para);
 
 				writeKeys(tree, para);
 
@@ -140,6 +142,18 @@ class FileHandler
 			file.close();
 		}
 
+		static string toLower(string str)
+		{
+			char lower[str.size()];
+			strcpy(lower, str.c_str());
+			for(int i = 0; i < strlen(lower); i ++)
+			{
+				lower[i] = tolower(lower[i]);
+			}
+			str = lower;
+			return str;
+		}
+
 		static void writeKeys(Tree *tree, string para)
 		{
 			Tokenizer tokenizer(para, ' ');
@@ -147,6 +161,11 @@ class FileHandler
 			while(tokenizer.hasNext())
 			{
 				string tok = tokenizer.getNext();
+				char c_str[tok.size()];
+				strcpy(c_str, tok.c_str());
+				
+				tok = toLower(tok);
+
 				if(tok.find("\n") != -1)
 				{
 					Tokenizer endlineTokenizer(tok, '\n');

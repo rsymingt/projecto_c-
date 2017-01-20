@@ -18,3 +18,53 @@ declare
 0
 [bob in ~] declare -p VARIABLE
 declare -i VARIABLE="0"
+[bob in ~] OTHERVAR=blah
+[bob in ~] declare -p OTHERVAR
+declare -- OTHERVAR="blah"
+
+readonly
+readonly OPTION VARIABLE(s)
+
+readonly
+[bob in ~] readonly TUX=penguinpower
+[bob in ~] TUX=Mickeysoft
+bash: TUX: readonly variable
+
+arrays
+ARRAY[INDEXNR]=value
+declare -a ARRAYNAME
+declare -a ARRAYNAME
+ARRAYNAME[indexnumber]=value
+
+arrays
+dereferencing
+[bob in ~] ARRAY=(one two three)
+[bob in ~] echo ${ARRAY[*]}
+one two three
+[bob in ~] echo $ARRAY[*]
+one[*]
+[bob in ~] echo ${ARRAY[2]}
+three
+[bob in ~] ARRAY[3]=four
+[bob in ~] echo ${ARRAY[*]}
+one two three four
+[bob in ~] unset ARRAY[1]
+[bob in ~] echo ${ARRAY[*]}
+one three four
+[bob in ~] unset ARRAY
+[bob in ~] echo ${ARRAY[*]}
+<--no output-->
+
+variable
+operations
+${#VAR} - calculates number of characters in the VAR
+${#ARRAY} - calculates length of array
+${VAR:-WORD} - if VAR is null, WORD is output/used
+${VAR:=WORD} - if VAR is null, VAR is initialized with WORD
+${VAR:?"string"} - check if VAR is null, if so string is outputed and script terminated
+${VAR:OFFSET:LENGTH} - goes to offset and gets of length string, no need to indicate length
+${VAR#WORD} || ${VAR##WORD} - eliminates shortest matching pattern (#) or longest (##),
+opposite effect when using (%) or (%%)
+${VAR/PATTERN/STRING} || ${VAR//PATTERN/STRING} - replaces first match with STRING or all with STRING
+
+

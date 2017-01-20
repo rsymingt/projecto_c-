@@ -9,7 +9,6 @@ using std::endl;
 
 class Commands
 {
-
 	public:
 
 		void run(string command, Tokenizer tokenizer)

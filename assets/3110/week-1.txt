@@ -1,0 +1,209 @@
+Text
+	operating systems concepts 9th edition
+
+Topics
+	structure of processes
+	asynchronous activity
+	multiprogramming
+	memory management
+	file sydtems
+	operating system kernel
+	distributing computing
+
+ascii 256 possibiities
+
+Analysis of: int x = 0;
+	type: value domain
+	name: symbolic id
+	value: value and type
+	operator: +, -, *, /
+	size: 32 bit
+	scope: where to access
+	storage class: register, auto, external, static
+
+//FORMAT
+
+What does an OS do? 
+Provides abstractions 
+Goal -> make the computer easier to use 
+Ex) processes, unbounded memory 
+Provides a standard interface 
+Goal -> portability 
+Ex) unix runs on many different computer systems 
+Manages Resource Usage 
+Goal -> allow multiple users to share resources fairly, efficiently and safely 
+Ex) multiple process share one processor 
+Consumes Resources 
+Solaris takes up about 8MB physical memory 
+Android has about 12 million lines of code 
+Windows 10 has about 50 million lines of code 
+ 
+Where are OS' used 
+Desktop and servers 
+Laptop 
+??? 
+Profit 
+ 
+Example Palm OS 
+"Sounds like your girlfriend" -Rhys '17 
+R 
+I 
+P 
+*Dr. Lee makes blackberry joke 
+Rip 
+
+Computer Systems 
+Registers 
+Interrupts 
+Caching 
+IO 
+Protection 
+Summary 
+ 
+Registers 
+Cache 
+RAM 
+Virtual Memory 
+ 
+Processor Registers 
+User-visible registers 
+May be referenced by machine language 
+Available to all programs - application programs and system programs 
+Data registers 
+Address registers 
+Stack registers 
+Condition registers 
+Condition codes 
+Control and status registers 
+May or may not be visible 
+Program counter 
+Instruction register 
+MAR/MBR memory reference register 
+Program status Word (PSW) condition codes, interrupts, mode 
+ 
+Instruction Execution 
+Processor executes instruction in a program 
+Instructions are fetched from memory one at a time 
+ 
+Interrupts Classes of interrupts 
+	Program 
+	Arithmetic overflow 
+	Div by 0 
+	Reference outside user's memory space 
+	Timer 
+	I/O 
+	Hardware failure 
+	An interrupt handler determines nature of the interrupt and performs whatever actions are needed 
+	Control is transferred to this program 
+	Generally part of the OS 
+	Cycle 
+	Processor checks for interrupts 
+	In no interrupts, fetch the next instruction for the current program 
+	If an interrupt is pending, suspend execution of the current program
+
+Multiple Interupts
+	2 Choices
+		disable interupts
+			disable upon entering an interrupt handler
+			enable upon exiting
+		allow interrupt handler to be interrupted
+		prioities?
+
+Examples of interrupts
+	mouse moved/clicked
+	disk drive operation completed
+	keyboard key pressed
+	printer out of paper
+	video card wants memory access
+
+interrupt handlers
+	interupt handlers are the routines that are called when an interrupt is detected
+	interupt gandlers are usually short sections of code that are designed to handle the immediate needs of the device and return control to the operating system or user prog
+
+interrupt summary
+	an interrupt is a signal to the processor emitted by hardware or software indicating an event that needs immediate attention
+	an interrupt can occur at any time
+	hardware and software are needed to support interrupt handling
+	the current state of tghe interrupted program must be saved
+
+storage hierarchy
+	registers
+	cache
+	main memory
+	electronic disk
+	magnetic disk
+	optical disk
+	magnetic tapes
+		More expensive and smaller up the list and bigger down the list
+
+os checks cache for required address first
+registers 'address' stored in cache
+
+comparitive access timings
+	processor registers: 5 ns
+	SRAM memory: 15 ns
+	DRAM memory: 60 ns
+	magnetic: 10 ns
+
+DRAM memory transfers in blocks to cache
+
+memory cache
+	given
+		processor speed is faster than memory speed
+		execution/data localizes
+	cache
+		contains portion of main memory
+		invisible to OS
+		increases speed of memory
+	processor checks cache first
+	if not found checks block of memory containing needed info
+
+cache design
+	cashe size
+		significant on performance
+	block size
+		unit of data exchanged between cache and main memory
+
+cache design
+	mapping function
+		determines whcih cache location the block will occupy
+	replacement algorithm
+		determines which block to replace
+		least-recently-used (LRU) algorithm
+	write policy
+		write a (Dirty) block of cache back to main memory
+
+disk cache
+	portion of main memory will be used as buffer to temporarily to hold data for the disk
+	disk writes are clustered
+	some data written may be referenced again
+
+programmed I/O
+	I/O module performs the action, not processor
+	sets appropriate bits to SR
+	no interrupts occur
+	processor kept busy
+
+interrupt driven I/O
+	processor is interrupted when I/O module ready to exchange data
+	processor free to work
+	consumes a lot of processor time
+
+direct memory access
+	transfer directly to memory
+	interrupt sent when task complete
+
+hardware protection
+	from
+		shared resources - memory, disk
+		errant programs
+	how
+		cpu provides 2 modes of operation
+			user mode
+			supervisor
+
+memory protection
+	not allow program to access memory outside of its space
+		add two registers
+			base limit
+		use the register to check every reference

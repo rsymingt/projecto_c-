@@ -1,0 +1,131 @@
+text
+	introduction to design and analysis of algorithms
+
+aopics
+	design techniques
+		divide-and-conquer
+		decrease-and-conquer
+		transform-and-conquer
+		dynamic programming
+		greedy techniques
+		iterative improvement
+		backtracking
+	algorithms
+		using
+			lists
+			matrices
+			trees
+			graphs
+	math Methods
+		analyzing
+			non-recursive
+			recursive
+
+algorithms
+	definition
+		sequence of unambiguous instructions for solving a problem for obtaining a required output for any legitimate input in a finite amount of time
+	recipe, process, method, technique, procedure, routine, etc.. with following requirements
+		finiteness
+			terminates after finite number of steps
+		definiteness
+			rigorously and unambiguously specified
+		input
+			valid inputs are clearly specified
+		output
+			can be proved to produce the correct output given a valid input
+		effectiveness
+			steps are sufficiently simple and basic
+	examples of sorting algorithms
+		selection sort
+			input: array
+			output: array sorted in non-decreasing order
+			algorithm: for each position swap i with smallest compared to i
+		insertion sort
+		merge sort
+		etc
+	issues with algorithms
+		how to design algorithms
+		how to express algorithms
+		proving correctness
+		efficiency
+			theoretical analysis
+			empirical analysis
+		optimality
+	two main issues
+		how to design algorithms
+		how to analyze algorithm efficiency
+
+analysis of algorithms
+	how good is the algorithm
+		correctness
+		time efficiency
+		space efficiency
+	does there exist a better algorithm
+		lower bounds
+		optimality
+
+algorithm design techniques/strategies
+	brute force
+	divide and conquer
+	decrease and conquer
+	transform and conquer
+	space adn time tradeoffs
+	greedy approach
+	dynamic programming
+	iterative improvement
+	backtracking
+	branch and bound
+
+important problem types
+	searching, string processign
+	sorting
+	tree problems
+	graph problems
+	other problems, including combinatorial problems, geometric problems, numerical problems, and so on
+
+Theoretical analysis of time efficiency
+	analyzed by determining the number of repetitions of the basic operation as a function of input size
+	basic operation
+		operation that contributes most towards running time of the algorithm
+	worst case, best case, avg case
+	e.g. sequential search
+		worst case: n
+		best case: 1
+		avg case: n(n+1)/2 + n(1 - p) (p is probability to find k in the array), (assume prob to find key at 1st, 2nd, ...)
+
+Emperical analysis of time efficiency
+	select a specific sample of inputs
+	use physical unit of time (milli) OR count actual number of basic operation's executions
+	analyze the emperical data
+
+types of formulats for basic operations count
+	formula
+		C(n) = n(n-1)/2
+	formula indicating order of growth with specific multiplicative constance
+		C(n) = 0.5n^2
+	formula indicating order of growth with unknown multiplicative constant
+		C(n) = cn^2
+
+Order of Growth
+	a function of n grows as n -> INFINITY
+	the growth rate of the dominant term without coefficient
+	the gorwth rate of a function is also referred to as order of growth of the function
+	order of growth describes how the time for computation increases when the input size increases
+	order of growth can be used to answer questions like
+		how much faster will algorithm run on computer twice as fast?
+		how much longer does it take to solce the provelm of double input size?
+
+asymptotic order of growth
+	way of comparing functions that ignores constant factors and small input sizes
+		class of functions f(n) that grow no faster than g(n)
+		class of functions f(n) that grow at the same rate as g(n)
+		class of functions f(n) that grow at least as fast as g(n)
+
+establishing order of growth using the definition
+	def: f(n) is O(g(n)) if order of growth of f(n) <= order of growth of g(n) (within constant multiple)
+		exists a positive constant c and non-negative integer n at 0 such that
+			f(n) <= c g(n) for every n >= n at 0
+		O(g(n)) is a set
+			O(g(n)) = {f(n): (backwards E) c such that f(n) <= cg(n) (upside down A)n >= n at 0}
+
+(omega) mg(n) class of functions that grow at least as fast as g(n)

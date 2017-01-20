@@ -1,0 +1,135 @@
+Go to lab to learn assignment, Ok Dr. Lee 
+Shell 
+Text window? 
+Input cmd 
+??? 
+Profit 
+Shell is an interpreter 
+Cmd line interpreter 
+The names interpreter… 
+Cmd line interpreter (▀̿Ĺ̯▀̿ ̿) 
+*Dr. Lee adds some random hex vals 
+****** 
+execvp() 
+Char* args[] = {"ls", "-l", NULL}; 
+ececvp(args[0], args) 
+ 
+ 
+OS services 
+Program development 
+Editors 
+Program execution 
+Access to IO devices 
+Controlled access to files 
+Authorization, sharing, caching 
+System access 
+Protection 
+Error detection and response 
+Accounting 
+Collect stats 
+STEAL data 
+ 
+Resource manager 
+OS executes same way as ordinary computer software - it is a set of programs 
+The key difference is  
+To manage resources 
+T0 schedule processor to exe programs 
+Kernal 
+Portion of OS system that is in main memory 
+Contains most freq used functions 
+ 
+Evolution 
+They have evolved 
+Tree 
+Serial processing 
+… 
+Time sharing system (Most current) 
+Serial processing 
+No OS 
+Machine run from a console with display lights and switches 
+Simple batch systems 
+Monitors 
+Software that controls the running programs 
+Job control language 
+Hardware features 
+Time sharing systems 
+Shares resources between programs 
+Allow several users to interact at the same time 
+MS-DOS 
+DOS 3.1 
+Windows 3.1 
+Windows 95 32bit 
+Distributed Processing System 
+Symmetric multiprocessing 
+There are multiple processors 
+Distributed OS 
+Provides the illusion of a single main memory and single secondary memory space 
+Used for distributed computing 
+ 
+Major Achievements 
+Processes 
+Memory management 
+Information protection and security 
+Scheduling and resource management 
+ 
+Processes in Windows XP 
+Shit ton yo 
+Info gathered by OS and updated continuously 
+ 
+Memory Management 
+Responsibilities of memory management 
+Process isolation 
+Automatic allocation and management 
+These req. are typically met by 
+Virtual memory 
+
+what is required by OS
+	assist exuecution of process
+		interleave the execution of several processes
+		maximize processor utilization
+		provide reasonable response time
+	allocate resources to process
+		fairness
+		avoid starvation / deadlock
+	support interprocess activities
+		communication
+		user creation of processes
+
+process creation
+	what initates
+		batch job
+		created to provide services such as printing
+	decisions
+		resource allocation
+			treat as a new process
+			divide parents resources among children
+		execution
+			child runs concurrently with parent
+		address space
+			copy of parent
+	Unix process creation
+		new process is created by the fork call
+		child and parent are identical
+			child returns a 0
+			parent returns non-zero
+		both parent adn child execute next line
+		parent and child processes can execute different code based upon the fork return values
+		PID != 0 in parent and PID = 0 in child
+	windows NT
+		offers the fork-exec model
+		process created by CreateProcess call
+			concurrently with parent
+			parent must wait
+		child proces exectures
+		CreateProcess loads a program into the address space of the child process
+			CreateProcess(NULL, program, NULL, NULL, TRUE, 0, NULL, NULL, &si //STARTUPINFO ptr, &pi //recieves PROCESS_INFORMATION)
+
+Reasons for process termination
+	OS intervention
+	exception
+	parent termination (cause child termination)
+	time out
+
+process
+	top
+		heap -> usable memory -> stack -> global data -> code

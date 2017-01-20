@@ -14,6 +14,10 @@ class LinkedList
 
 				return true;
 			}
+			else if(record->txt.compare(txt) == 0)
+			{
+				return false;
+			}
 			else
 			{
 				insert(record->next, txt);

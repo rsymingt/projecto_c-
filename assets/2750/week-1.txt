@@ -1,0 +1,51 @@
+Text
+	Beginning linux programming by richard stones and neil matthew, Wrox Press Ltd.
+	Learning php, mySQL, javascript, CSS & HTML5, by Robin Nixon, OReilly Media
+
+Assignment 1
+	takes another prog as input and converts to c program
+	spaces, carriage returns, tabs, commas, semicolon, curly braces, brackets
+	open file, while loop reading one char at time, 
+		if whitespace, \t, \n, \r then
+			start new line
+		if char is puncuation or bracket ,;(){} then
+			print puncuation and new line
+		else
+			print characters without new line
+	close file
+	match keyword, var name (utility functions)
+
+// ... \n
+/* ... */
+
+fgetc();
+ungetc(); <-
+
+Implementation characteristics
+	unspecified behavior for something which the standard does not impose any requirements
+	undefined behavior is something incorrect which the standard does not impose any requirements. anything may happen, from nothing, to a warning message, to program termination
+	A constraint is a restriction or requirement that must be obeyed. if disobeyed program will become undefined
+		problem with this definition is compiler only needs to output error message if both syntax and constraints are invalid
+	Semantic Rules which are not explicitely stated and can be broken because the behavior is undefined the compiler doesn't have to issue a warning
+	strictly conforming code is one which
+		uses only specified features of language
+		doesn't exceed any implementation-defined limits
+		has no output that depends on implementation defined, unspecified, or undefined features
+	Conforming program can depend on non-portable features
+		conforming programs are considered with respect to a specific implementation and may be non-conforming using a different compiler
+		compilers can have extensions, but not ones that alter behavior of strictly conforming program
+
+Features of C11
+	multithreading <threads.h> <stdatomic.h>
+	array bounds checking
+
+MIDTERM
+int fn(a, b){
+int a;
+float b;
+{
+}
+
+Code Rot
+	program hasnt changed, yet stops working/compiling
+		compiler, libraries, or OS upgraded
