@@ -1,0 +1,41 @@
+advanced c programming
+  scope
+    region where you can access a variable by name
+  four types
+    program scope
+      variable accessible by all source files that make executable
+        all c functions
+        global (extern) variables
+    file scope
+      variable accessible from its declaration point to the end of the file
+        static variables that are global
+      if variable defined outside any function
+        normally program scope
+        static keeps definition from being passed to the linker -> doesn't become external
+    function scope
+    block scope
+      variables accessible after declaration point to the end of block declared in
+
+program symbol concepts
+  names used for data and functions
+    var name, typedef, enum, struct (fields), class (data members, methods), and more
+  definition
+    where the named thing lives
+      actual memory location of data or function
+  reference
+    some use of the thing by name
+      load/store, call: must be "resolved" to location
+  declaration
+    tells compiler about the name
+      compiler can verify that references are correct
+
+precendence of operators
+  associativity
+    left associativity two operations of equal importance done from left to right
+    right associativity (e.g. a = b = c) c goes into b goes into a
+  problems
+    . > * -> (*p.f) -> should get f in p -> actually get f in ptr to p dereferenced
+    (c = getchar() != EOF) ~ (c = (getchar() != EOF))
+
+linker
+  attaches libraries included to program

@@ -3,7 +3,7 @@
 
 class Tree
 {
-	
+
 	public:
 
 		Tree(std::string key, std::string txt)
@@ -15,12 +15,12 @@ class Tree
 		{
 			root = NULL;
 		}
-		
+
 		~Tree()
 		{
 			destroy(root);
 		}
-		
+
 		bool isEmpty()
 		{
 			if(root)
@@ -58,8 +58,8 @@ class Tree
 
 		LinkedList * search(LinkedList *lastSearchList, Tokenizer tokenizer)
 		{
-			LinkedList *list;
- 			
+			LinkedList *list = NULL;
+
  			if(tokenizer.hasNext())
  			{
 
@@ -280,7 +280,7 @@ class Tree
                             root->key = temp->key;
                             root->freq = temp->freq;
                             temp->freq = 1;
-                            
+
                             result = remove(root->right, temp->key);
                     }
                 }

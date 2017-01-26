@@ -1,0 +1,5 @@
+smoothness rule
+  claims under broad assumptions, the order of growth observed for n = 2^k gives a correct answer about order of growth for all values of n
+  can be used to simplify analysis of efficiency for divide and conquer algorithms
+  f(n) is called smooth if it is eventually non-decreasing
+  read slides

@@ -90,7 +90,7 @@ class LinkedList
 		{
 			LinkedList *newList = new LinkedList();
 			clone(record, newList);
-			
+
 			return newList;
 		}
 

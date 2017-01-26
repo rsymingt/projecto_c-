@@ -1,6 +1,6 @@
 
 #include "Tree.h"
-#include "FileHandler.h" 
+#include "FileHandler.h"
 #include "DirectoryHandler.h"
 
 using std::string;
@@ -82,7 +82,7 @@ class Commands
 						help(command);
 						return;
 					}
-					
+
 					if(command == "print")
 					{
 						print(tok, tokenizer);
@@ -135,7 +135,7 @@ class Commands
 				lastSearchList = NULL;
 			}
 		}
-	
+
 	private:
 
 		string list[11];
@@ -195,7 +195,7 @@ class Commands
 			"-r    - resets the tree\n"
 			"-f    - removes said file";
 
-			subCommands[3] = 
+			subCommands[3] =
 			"create [option] 'name'\n\n"
 			"options\n"
 			"-f    - run text editor on specified file\n"
@@ -252,7 +252,7 @@ class Commands
 				{
 					string filename = tokenizer.getNext();
 
-					struct stat buffer;   
+					struct stat buffer;
 		  			if(stat (filename.c_str(), &buffer) == 0)
 		  			{
 		  				if(buffer.st_mode & S_IFDIR)
@@ -415,7 +415,7 @@ class Commands
 
 			cout << endl << "COMMANDS" << endl <<
 							"------------------------" << endl;
-							
+
 			for(int i = 0; i < sizeof(list)/sizeof(string); i ++)
 			{
 				if(list[i] != "help")

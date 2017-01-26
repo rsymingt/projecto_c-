@@ -3,7 +3,7 @@
 
 class Node
 {
-		
+
 	private:
 		Node *left;
 		Node *right;
@@ -59,14 +59,14 @@ class Node
 
 		void rotateRight()
 		{
-			
+
 		}
 
 		Node(std::string key, std::string txt)
 		{
 			this->key = key;
 			list.insert(txt);
-			
+
 			height = 0;
 			freq = 1;
 
@@ -77,6 +77,6 @@ class Node
 		~Node()
 		{
 		}
-		
+
 		friend class Tree;
 };

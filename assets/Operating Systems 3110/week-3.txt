@@ -1,0 +1,89 @@
+suspended processes
+  processor is faster than I/O so all processes could be waiting for I/O
+  swap these processes to disk to freee up more memory
+  blocked state becomes suspended state when swapped disk
+  two new states
+    blocked, suspend
+    ready, suspend
+
+reasons for process suspension
+  swapping
+    os needs to release main memory to handle process
+  other reason
+    suspend background process or process expected to be causing a problem
+  interactive user req
+    user suspend program for debugging
+  timing
+    process periodically may be suspended
+  parent process req
+    parent may suspend process of descendant to examine the process
+
+state of linux process
+  can be in 1 of several states
+    0: TASK_RUNNING
+    1: TASK_INTERRUPTABLE
+    2: TASK_UNINTERUPTABLE
+    4: TASK_ZOMBIE
+    8: TASK_STOPPED
+  similar to a forked process
+
+process concepts
+  OS control structures
+    memory tables
+    I/O tables
+    File tables
+    Process tables
+  tables constructed for each entity
+  OS manage and protect these tables
+
+control tables
+  memory tables
+    allocation of main mem
+    allocation of secondary mem
+    protection for access to shared mem regions
+    info needed to manage virtual mem
+  I/O device is available or assigned
+    status of I/O OP.
+    location in main mem being used as source or dest of the I/O transfer
+  file table
+    file exist?
+    location on sec mem
+    status
+    attributes
+    mostly maintained by file management system
+  process table
+    PID
+    state
+    location in mem
+
+process location
+  process includes
+    data location
+    defined constants
+    stack
+    heap
+    set of programs to be executed
+  process control block (PCB)
+    collection of attributes
+
+process control block (PCB)
+  process identification
+  processor state info
+    user visible registers
+    control and status registers
+    stack pointers
+  process control info
+    scheduling state info
+      process state
+      priority
+      related info
+      event
+    data structuring
+    process privileges
+    memory management
+    resource ownership and utilization
+
+execution of stack in c
+  C runtime system keeps track of chain of active functions with a stack
+  when function called, the runtime system pushes on the stack
+  on function end it is popped off stack
