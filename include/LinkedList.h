@@ -77,6 +77,7 @@ class LinkedList
 				{
 					Record *next = record->next;
 					delete record;
+					record = NULL;
 					record = next;
 					return true;
 				}
