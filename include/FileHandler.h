@@ -16,21 +16,21 @@ class FileHandler
 
 		static void readFile(string filename)
 		{
-			struct stat buffer;   
+			struct stat buffer;
   			if(stat (filename.c_str(), &buffer) == 0)
   			{
   				std::ifstream file(filename.c_str());
 
   				string str;
 
-				file.seekg(0, std::ios::end);   
+				file.seekg(0, std::ios::end);
 				str.reserve(file.tellg());
 				file.seekg(0, std::ios::beg);
 
 				str.assign((std::istreambuf_iterator<char>(file)),
 				            std::istreambuf_iterator<char>());
 
-				
+
 				cout << str << endl;
 
   				file.close();
@@ -44,8 +44,8 @@ class FileHandler
 		static void recurseDir(Tree *tree, string filename)
 		{
 			DIR *dp;
-			struct dirent *ep; 
-			
+			struct dirent *ep;
+
 			dp = opendir (filename.c_str());
 
 			if (dp != NULL)
@@ -93,19 +93,19 @@ class FileHandler
 	  				tree->destroy();
 	  			}
   			}
-  			
+
 			std::ifstream file(filename.c_str());
 
 			string str;
 
-			file.seekg(0, std::ios::end);   
+			file.seekg(0, std::ios::end);
 			str.reserve(file.tellg());
 			file.seekg(0, std::ios::beg);
 
 			str.assign((std::istreambuf_iterator<char>(file)),
 			            std::istreambuf_iterator<char>());
 
-			
+
 			string last = str;
 			for(int i = 0; (i = last.find("\n\n")) != -1;)
 			{
@@ -144,7 +144,7 @@ class FileHandler
 
 		static string toLower(string str)
 		{
-			char lower[str.size()];
+			char lower[str.size() + 1];
 			strcpy(lower, str.c_str());
 			for(int i = 0; i < strlen(lower); i ++)
 			{
@@ -163,7 +163,7 @@ class FileHandler
 				string tok = tokenizer.getNext();
 				char c_str[tok.size()];
 				strcpy(c_str, tok.c_str());
-				
+
 				tok = toLower(tok);
 
 				if(tok.find("\n") != -1)
