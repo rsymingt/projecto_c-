@@ -105,26 +105,38 @@ class FileHandler
 			str.assign((std::istreambuf_iterator<char>(file)),
 			            std::istreambuf_iterator<char>());
 
-
-			string last = str;
-			for(int i = 0; (i = last.find("\n\n")) != -1;)
+			string para = "";
 			{
+				int scope;
+				int i;
+				for(scope = 0, i = 0; i < str.size(); i ++)
+				{
+					switch(str[i])
+					{
+						case '{':
+							para+="{";
+							scope ++;
+							break;
+						case '}':
+							para+="}";
+							scope --;
+							break;
 
-				string para = last.substr(0, i + 2);
-				int start = 0;
-				for(; para[start] == '\n'; start ++);
-				para = para.substr(start);
+						case '\n':
+							para += '\n';
+							if(i < str.size()-1 && str[i+1] == '\n' && scope == 0 && para.size() > 0)
+							{
+								writeKeys(tree, para);
+								para = "";
+							}
+							break;
 
-				//para = toLower(para);
-
-				writeKeys(tree, para);
-
-
-				//cout << para;
-				last = last.substr(i+2);
+						default:
+							para += str[i];
+							break;
+					}
+				}
 			}
-			string para = last;
-
 			writeKeys(tree, para);
 
 			cout << "tree successful created from file '" << filename << "'" << endl;
@@ -154,31 +166,46 @@ class FileHandler
 			return str;
 		}
 
+		/*
+		delimits keys and adds them into the tree with their corresponding keys
+		*/
 		static void writeKeys(Tree *tree, string para)
 		{
-			Tokenizer tokenizer(para, ' ');
+			char c_para[para.size() + 1];
+			strcpy(c_para, para.c_str());
 
-			while(tokenizer.hasNext())
+			string key = "";
+
 			{
-				string tok = tokenizer.getNext();
-				char c_str[tok.size()];
-				strcpy(c_str, tok.c_str());
-
-				tok = toLower(tok);
-
-				if(tok.find("\n") != -1)
+				int i;
+				for(i = 0; i < strlen(c_para); i ++)
 				{
-					Tokenizer endlineTokenizer(tok, '\n');
-					while(endlineTokenizer.hasNext())
+					switch(c_para[i])
 					{
-						tok = endlineTokenizer.getNext();
-						if(tok.size() > 0)
-							tree->insert(tok, para);
+						case '(':
+						case ')':
+						case ' ':
+						case '\n':
+						case '\r':
+						case '[':
+						case ']':
+						case ':':
+						case '"':
+						case '\'':
+						case ',':
+						case '_':
+							if(key.size() > 0)
+							{
+								tree->insert(key, para);
+								key = "";
+							}
+							break;
+
+						default:
+							key += c_para[i];
+							break;
 					}
 				}
-				else
-					if(tok.size() > 0)
-						tree->insert(tok, para);
 			}
 		}
 };
